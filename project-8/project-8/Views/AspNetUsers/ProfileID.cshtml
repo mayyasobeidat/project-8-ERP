@@ -1,0 +1,123 @@
+﻿<style>
+    .id-card {
+        background-color: #fff;
+        border: 2px solid #0073b1;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        width: 550px;
+        height: 350px;
+        margin: 0 auto;
+        font-family: 'Roboto', sans-serif;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .id-body {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .id-photo img {
+        max-width: 150px;
+        border-radius: 50%;
+        border: 5px solid #fff;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .id-info {
+        flex-grow: 1;
+        padding: 0 20px;
+    }
+
+        .id-info h1 {
+            font-size: 30px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #0073b1;
+            text-align: center;
+        }
+
+        .id-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        .id-info li {
+            font-size: 18px;
+            line-height: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+    .label {
+        font-weight: 500;
+        color: #0073b1;
+        text-align: right;
+        flex-basis: 30%;
+    }
+
+    .value {
+        font-weight: 400;
+        color: #333;
+        text-align: left;
+        flex-basis: 70%;
+        padding-left: 10px;
+    }
+
+    /*/ Separator lines */
+    .id-info li:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -20px;
+        width: 1px;
+        height: 100%;
+        background-color: #0073b1;
+    }
+</style>
+<div class="id-card">
+    <div class="id-body">
+        <div class="id-photo">
+            <img src="https://via.placeholder.com/150" alt="Student Photo">
+        </div>
+        <div class="id-info">
+            <h1>Student ID Card</h1>
+            <ul>
+                <li>
+                    <span class="label">Name:</span>
+                    <span class="value">John Doe</span>
+                </li>
+                <li>
+                    <span class="label">ID Number:</span>
+                    <span class="value">123456</span>
+                </li>
+                <li>
+                    <span class="label">Date of Birth:</span>
+                    <span class="value">01/01/2005</span>
+                </li>
+                <li>
+                    <span class="label">Grade Level:</span>
+                    <span class="value">9</span>
+                </li>
+                <li>
+                    <span class="label">School Year:</span>
+                    <span class="value">2022-2023</span>
+                </li>
+                <li>
+                    <span class="label">School Name:</span>
+                    <span class="value">ABC High School</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

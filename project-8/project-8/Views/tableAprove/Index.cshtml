@@ -1,0 +1,42 @@
+﻿@model List<project_8.Models.class_Accepted>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            <span>UserName</span>
+        </th>
+        <th>
+            <span>Charge</span>
+        </th>
+
+        <th>
+            <span>Action</span>
+        </th>
+    </tr>
+
+    @foreach (var item in ViewBag.data)
+    {
+
+        <tr>
+            <td>
+                <span>@item.User_name</span>
+                @*@Html.LabelFor(m=>m.User_name)*@
+            </td>
+            <td>
+                <span>@item.charge</span>
+                @*@Html.LabelFor(m => m.charge)*@
+            </td>
+            <td>
+                @Html.ActionLink("Paid", "Paid", new { id = item.User_id, payment = item.charge, userName = item.User_name }, null) 
+              
+            </td>
+        </tr>
+    }
+
+</table>

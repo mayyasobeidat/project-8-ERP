@@ -1,0 +1,62 @@
+﻿@model IEnumerable<project_8.Models.student_payments>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+}
+
+<style>
+    body {
+        background-image: linear-gradient(to top, #dbdcdd 0%, #ffffff 100%);
+    }
+</style>
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<div class="container">
+    <br />
+    <div class="container shadow px-4 py-4 bg-white">
+        <table class="table table-hover table-responsive-sm">
+            <tr>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.User_name)
+                    </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.payment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.description)
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.AspNetUser.Email)
+                    </th>
+                    <th></th>*@
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.User_name)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.payment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+                        </td>*@
+                </tr>
+            }
+
+        </table>
+    </div>
+    <br />
+    </div>

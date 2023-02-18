@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            <span>UserName</span>
+        </th>
+        <th>
+            <span>Charge</span>
+        </th>
+
+        <th>
+            <span>Action</span>
+        </th>
+    </tr>
+
+    @foreach (var item in ViewBag.data)
+    {
+
+        <tr>
+            <td>
+                <span>@item.UserName</span>
+                @*@Html.LabelFor(m=>m.User_name)*@
+            </td>
+            <td>
+                <span>250</span>
+                @*@Html.LabelFor(m => m.charge)*@
+            </td>
+            <td>
+                @Html.ActionLink("Paid", "Paid", new { id = item.Id, userName = item.UserName }, null)
+
+            </td>
+        </tr>
+    }
+
+</table>

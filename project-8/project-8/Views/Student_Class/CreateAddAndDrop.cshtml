@@ -1,0 +1,126 @@
+﻿@model project_8.Models.Student_Class
+
+@{
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+    <style>
+        body {
+            background-image: linear-gradient(to top, #dbdcdd 0%, #ffffff 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <br />
+        <div class="container shadow px-4 py-4 bg-white">
+            @* تسجيل مواد للطالب*@
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal ">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+
+
+
+                                <label class="control-label col-md-2">Class</label>
+                                <div class="form-group">
+                                    @{
+                                        List<SelectListItem> items = new List<SelectListItem>();
+                                        foreach (var item in ViewBag.ddata)
+                                        {
+                                            string test1 = item.Cours.Name;
+                                            string test2 = Convert.ToString(item.Time);
+                                            string final = test1 + " " + test2;
+                                            items.Add(new SelectListItem { Text = final, Value = item.Id.ToString() });
+                                        }
+                                    }
+                                    @Html.DropDownListFor(m => m.Class_id, items, "Select Somthing", new { @class = "form-control" })
+                                    @*  @Html.DropDownList("Class_id", null, htmlAttributes: new { @class = "form-control" })*@
+                                    @Html.ValidationMessageFor(model => model.Class_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Student</label>
+                                    @Html.DropDownList("User_id", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.User_id, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Add" class="btn btn-default" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <table class="table table-hover table-responsive-sm">
+                        <tr>
+                            <th>
+                                <span>Classes</span>
+                            </th>
+                            <th>
+                                <span>Time</span>
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in ViewBag.student)
+                        {
+
+                            <tr>
+                                <td>
+                                    <label>@item.CourseName </label>
+                                </td>
+                                <td>
+                                    <label>@item.Time</label>
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+
+
+
+
+                </div>
+            }
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Confirm", "Confirm", new {@class="btn btn-default"})
+                </div>
+            </div>
+
+
+        </div>
+    
+        <br />
+    </div>
+</body>
+</html>

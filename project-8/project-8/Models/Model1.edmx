@@ -48,6 +48,7 @@
           </Key>
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="third" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using project_8.Models;
 
 namespace project_8.Controllers
@@ -17,7 +18,8 @@ namespace project_8.Controllers
         // GET: student_payments
         public ActionResult Index()
         {
-            var student_payments = db.student_payments.Include(s => s.AspNetUser);
+            var idd = User.Identity.GetUserId();
+            var student_payments = db.student_payments.Include(s => s.AspNetUser).Where(m=>m.User_id==idd);
             return View(student_payments.ToList());
         }
 

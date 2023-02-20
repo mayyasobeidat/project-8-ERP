@@ -74,6 +74,8 @@ namespace project_8.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
             var dbContext = new project8Entities();
             
             if (!ModelState.IsValid)
@@ -88,12 +90,32 @@ namespace project_8.Controllers
             {
                 case SignInStatus.Success:
                     var userId = User.Identity.GetUserId();
+                    var user = await userManager.FindByEmailAsync(model.Email);
+                    var roles = await userManager.GetRolesAsync(user.Id);
+                    
+
                     var attempet_user = dbContext.AspNetUsers.SingleOrDefault(m => m.Id == userId)?.Acceptance;
                     if (attempet_user == false) {
                         ModelState.AddModelError("", "Please wait for Acceptance");
                         return View(model);
                     }
-                    return RedirectToLocal(returnUrl);
+                    if (roles[0]== "Accountant")
+                    {
+                        return RedirectToAction("Index", "AllowEnrollment");
+                    }
+                    if (roles[0] == "Acceptance")
+                    {
+                        return RedirectToAction("Index", "AllowStudent");
+                    }
+                    if (roles[0] == "Admin")
+                    {
+                        return RedirectToAction("Create", "Faculities");
+                    }
+                    if (roles[0] == "Ameed_IT")
+                    {
+                        return RedirectToAction("Create", "Cours");
+                    }
+                    return RedirectToAction("Create", "Student_Class");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

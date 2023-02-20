@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace project_8.Controllers
 {
+    [Authorize(Roles = "Accountant")]
     public class tableAproveController : Controller
     {
         private project8Entities db = new project8Entities();

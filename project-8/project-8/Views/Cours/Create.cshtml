@@ -1,7 +1,7 @@
 ﻿@model project_8.Models.Cours
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
 <!DOCTYPE html>
@@ -14,40 +14,40 @@
 <body>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
-    
-    
-    @using (Html.BeginForm()) 
+
+
+    @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        
+
         <div class="form-horizontal">
             <h4>Cours</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2", style = "text-align: left;width: 150px;" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
-    
+
             <div class="form-group">
-                @Html.LabelFor(model => model.Major_id, "Major_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Major_id, "Major_id", htmlAttributes: new { @class = "control-label col-md-2", style = "text-align: left;width: 150px;" })
                 <div class="col-md-10">
                     @Html.DropDownList("Major_id", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Major_id, "", new { @class = "text-danger" })
                 </div>
             </div>
-    
+
             <div class="form-group">
-                @Html.LabelFor(model => model.Classification_id, "Classification_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Classification_id, "Classification_id", htmlAttributes: new { @class = "control-label col-md-2", style = "text-align: left;width: 150px;" })
                 <div class="col-md-10">
                     @Html.DropDownList("Classification_id", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Classification_id, "", new { @class = "text-danger" })
                 </div>
             </div>
-    
+
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Create" class="btn btn-default" />
@@ -55,9 +55,61 @@
             </div>
         </div>
     }
-    
-    <div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>
+
+
+
+
+    <br />
+    <br />
+
+    <div class="ser" style="width:100%;overflow:auto">
+        @using (Html.BeginForm("Create", "Cours", FormMethod.Get))
+
+        {
+            @Html.TextBox("search")
+            <input type="Submit" value="search" class="btn btn-light" />
+        }
+    </div><br />
+
+    <table class="table table-striped">
+        <tr>
+            <th>
+                <span>Name</span>
+
+            </th>
+            <th>
+                <span>Major</span>
+
+            </th>
+            <th>
+                <span>Classification</span>
+
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in ViewBag.Cours)
+        {
+            <tr>
+                <td>
+                    <span>@item.Name</span>
+                </td>
+                <td>
+                    <span>@item.Major</span>
+                </td>
+                <td>
+                    <span>@item.Classification</span>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-success" }) |
+
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </table>
+
+
+
 </body>
 </html>

@@ -10,6 +10,7 @@ using project_8.Models;
 
 namespace project_8.Controllers
 {
+    [Authorize(Roles = "Ameed_IT")]
     public class ClassesController : Controller
     {
         private project8Entities db = new project8Entities();
@@ -37,9 +38,23 @@ namespace project_8.Controllers
         }
 
         // GET: Classes/Create
-        public ActionResult Create()
+        public ActionResult Create(string search)
         {
             ViewBag.Courses_id = new SelectList(db.Courses, "Id", "Name");
+
+            if (search == null)
+            {
+                var data = db.Classes.ToList();
+                ViewBag.classe = data;
+
+            }
+            else
+            {
+                var data = db.Classes.Where(x => x.Cours.Name.Contains(search)).ToList();
+                ViewBag.classe = data;
+            }
+
+          
             return View();
         }
 
@@ -54,7 +69,7 @@ namespace project_8.Controllers
             {
                 db.Classes.Add(@class);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create");
             }
 
             ViewBag.Courses_id = new SelectList(db.Courses, "Id", "Name", @class.Courses_id);
@@ -88,7 +103,7 @@ namespace project_8.Controllers
             {
                 db.Entry(@class).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create");
             }
             ViewBag.Courses_id = new SelectList(db.Courses, "Id", "Name", @class.Courses_id);
             return View(@class);
@@ -117,7 +132,7 @@ namespace project_8.Controllers
             Class @class = db.Classes.Find(id);
             db.Classes.Remove(@class);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Create");
         }
 
         protected override void Dispose(bool disposing)

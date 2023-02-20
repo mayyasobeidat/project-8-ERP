@@ -9,8 +9,10 @@ using System.Web;
 using System.Web.Mvc;
 using project_8.Models;
 
+
 namespace project_8.Controllers
 {
+    [Authorize(Roles = "Admin")] 
     public class FaculitiesController : Controller
     {
         private project8Entities db = new project8Entities();
@@ -18,7 +20,7 @@ namespace project_8.Controllers
         // GET: Faculities
         public ActionResult Index()
         {
-            return View(db.Faculities.ToList());
+          return View(db.Faculities.ToList());
         }
 
         // GET: Faculities/Details/5
@@ -37,11 +39,27 @@ namespace project_8.Controllers
         }
 
         // GET: Faculities/Create
-        public ActionResult Create()
+        public ActionResult Create(string search)
         {
-            var data = db.Faculities.ToList();
-            ViewBag.Faculity = data;
-            return View();
+            
+            if (search == null)
+            {
+                var data = db.Faculities.ToList();
+                ViewBag.Faculity = data;
+                return View();
+
+            }
+            else
+            {
+                var data = db.Faculities.Where(x => x.Name.Contains(search)).ToList();
+                ViewBag.Faculity = data;
+                return View();
+
+
+              
+            }
+            //return View();
+
         }
 
         // POST: Faculities/Create

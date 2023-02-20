@@ -11,14 +11,17 @@ using System.Xml.Linq;
 using Microsoft.AspNet.Identity;
 using project_8.Models;
 
+
 namespace project_8.Controllers
 {
+
     public class StudentClassViewModel
     {
         public int Id { get; set; }
         public string CourseName { get; set; }
         public string Time { get; set; }
     }
+    [Authorize]
     public class Student_ClassController : Controller
     {
         private project8Entities db = new project8Entities();
@@ -29,6 +32,63 @@ namespace project_8.Controllers
             var student_Class = db.Student_Class.Include(s => s.AspNetUser).Include(s => s.Class);
             return View(student_Class.ToList());
         }
+        public ActionResult CreateAddAndDrop()
+        {
+            if (User.Identity.GetUserId() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var userId = User.Identity.GetUserId();
+            var attempet_user = db.AspNetUsers.SingleOrDefault(m => m.Id == userId)?.Accountant;
+            if (attempet_user == false)
+            {
+                return RedirectToAction("Error");
+
+            }
+            var test = db.Classes.Include(m => m.Cours).ToList();
+            ViewBag.ddata = test;
+            //string test1 = test.Cours.Name;
+            //string test2 = Convert.ToString(test.Time);
+            //string final = test1 + " " + test2;
+
+            ViewBag.User_id = new SelectList(db.AspNetUsers, "Id", "Email");
+            ViewBag.Class_id = new SelectList(db.Classes, "Id", "Id");
+
+
+
+            var result = from sc in db.Student_Class
+                         select new StudentClassViewModel
+                         {
+                             Id = sc.Id,
+                             Time = sc.Class.Time.ToString(),
+                             CourseName = sc.Class.Cours.Name
+                         };
+            var dataaa = result.ToList();
+            ViewBag.student = dataaa;
+
+            var student_Class = db.Student_Class.Include(s => s.AspNetUser).Include(s => s.Class).ToList();
+            ViewBag.student = dataaa;
+            ViewBag.Hello = "Hello";
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateAddAndDrop([Bind(Include = "Id,Class_id,User_id")] Student_Class student_Class)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Student_Class.Add(student_Class);
+                db.SaveChanges();
+                return RedirectToAction("Create");
+            }
+
+            ViewBag.User_id = new SelectList(db.AspNetUsers, "Id", "Email", student_Class.User_id);
+            ViewBag.Class_id = new SelectList(db.Classes, "Id", "Id", student_Class.Class_id);
+            return View(student_Class);
+        }
+
 
         public ActionResult Error()
         {
@@ -92,48 +152,7 @@ namespace project_8.Controllers
             return View();
         }
 
-
-        public ActionResult CreateAddAndDrop()
-        {
-            if (User.Identity.GetUserId() == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            var userId = User.Identity.GetUserId();
-            var attempet_user = db.AspNetUsers.SingleOrDefault(m => m.Id == userId)?.Accountant;
-            if (attempet_user == false)
-            {
-                return RedirectToAction("Error");
-
-            }
-            var test = db.Classes.Include(m => m.Cours).ToList();
-            ViewBag.ddata = test;
-            //string test1 = test.Cours.Name;
-            //string test2 = Convert.ToString(test.Time);
-            //string final = test1 + " " + test2;
-
-            ViewBag.User_id = new SelectList(db.AspNetUsers, "Id", "Email");
-            ViewBag.Class_id = new SelectList(db.Classes, "Id", "Id");
-
-
-
-            var result = from sc in db.Student_Class
-                         select new StudentClassViewModel
-                         {
-                             Id = sc.Id,
-                             Time = sc.Class.Time.ToString(),
-                             CourseName = sc.Class.Cours.Name
-                         };
-            var dataaa = result.ToList();
-            ViewBag.student = dataaa;
-
-            var student_Class = db.Student_Class.Include(s => s.AspNetUser).Include(s => s.Class).ToList();
-            ViewBag.student = dataaa;
-            ViewBag.Hello = "Hello";
-            return View();
-        }
-
-
+       
         public ActionResult Confirm()
         {
             string userId = User.Identity.GetUserId();
@@ -187,6 +206,8 @@ namespace project_8.Controllers
         {
             if (ModelState.IsValid)
             {
+                string userId = User.Identity.GetUserId();
+                student_Class.User_id = userId;
                 db.Student_Class.Add(student_Class);
                 db.SaveChanges();
                 return RedirectToAction("Create");
@@ -196,27 +217,6 @@ namespace project_8.Controllers
             ViewBag.Class_id = new SelectList(db.Classes, "Id", "Id", student_Class.Class_id);
             return View(student_Class);
         }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateAddAndDrop([Bind(Include = "Id,Class_id,User_id")] Student_Class student_Class)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Student_Class.Add(student_Class);
-                db.SaveChanges();
-                return RedirectToAction("Create");
-            }
-
-            ViewBag.User_id = new SelectList(db.AspNetUsers, "Id", "Email", student_Class.User_id);
-            ViewBag.Class_id = new SelectList(db.Classes, "Id", "Id", student_Class.Class_id);
-            return View(student_Class);
-        }
-
-
-
-
 
         // GET: Student_Class/Edit/5
         public ActionResult Edit(int? id)

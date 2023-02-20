@@ -8,30 +8,30 @@
 
 @*<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-// your AJAX code here
-    $(document).ready(function () {
-        $("#searchForm").submit(function (event) {
-            event.preventDefault(); // stop the form submission from reloading the page
-            var searchValue = $("#searchInput").val(); // get the search input value
-            $.ajax({
-                type: "GET",
-                url: "/Home/Search",
-                data: { search: searchValue },
-                success: function (result) {
-                    // update the page with the search results
-                    $("#searchResults").html(result);
-                },
-                error: function () {
-                    // handle the error
-                    alert("An error occurred while processing the search request.");
-                }
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    // your AJAX code here
+        $(document).ready(function () {
+            $("#searchForm").submit(function (event) {
+                event.preventDefault(); // stop the form submission from reloading the page
+                var searchValue = $("#searchInput").val(); // get the search input value
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/Search",
+                    data: { search: searchValue },
+                    success: function (result) {
+                        // update the page with the search results
+                        $("#searchResults").html(result);
+                    },
+                    error: function () {
+                        // handle the error
+                        alert("An error occurred while processing the search request.");
+                    }
+                });
             });
         });
-    });
 
-</script>*@
+    </script>*@
 
 
 
@@ -44,7 +44,7 @@
         <div class="row no-gutters slider-text align-items-center justify-content-center" data-scrollax-parent="true">
             <div class="col-md-8 ftco-animate text-center">
                 <h1 class="mb-4">No Nation Can Prosper In Life Without Education</h1>
-                <p><a href="/Account/Login" class="btn btn-primary px-4 py-3">Apply Now</a> <a href="#Faculty" class="btn btn-secondary px-4 py-3">View Faculty</a></p>
+                <p><a href="/Account/Register" class="btn btn-primary px-4 py-3">Apply Now</a> <a href="#Faculty" class="btn btn-secondary px-4 py-3">View Faculty</a></p>
             </div>
         </div>
     </div>

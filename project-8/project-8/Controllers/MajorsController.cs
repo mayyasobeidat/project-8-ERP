@@ -11,11 +11,14 @@ using project_8.Models;
 
 namespace project_8.Controllers
 {
+    
     public class MajorsController : Controller
     {
+
         private project8Entities db = new project8Entities();
 
         // GET: Majors
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var majors = db.Majors.Include(m => m.Faculity);
@@ -41,12 +44,8 @@ namespace project_8.Controllers
 
         }
 
-      
-
-
-
-
         // GET: Majors/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -62,10 +61,23 @@ namespace project_8.Controllers
         }
 
         // GET: Majors/Create
-        public ActionResult Create()
+        [Authorize(Roles = "Admin")]
+        public ActionResult Create(string search)
         {
-            var data = db.Majors.ToList();
-            ViewBag.Major = data;
+            if (search == null)
+            {
+                var data = db.Majors.ToList();
+                ViewBag.Major = data;
+                
+
+            }
+            else
+            {
+                var data = db.Majors.Where(x => x.Name.Contains(search)).ToList();
+                ViewBag.Major = data;
+
+            }
+
 
             ViewBag.Faculity_id = new SelectList(db.Faculities, "Id", "Name");
             return View();
@@ -74,6 +86,7 @@ namespace project_8.Controllers
         // POST: Majors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Faculity_id,img,Price,Description")] Major major, HttpPostedFileBase img)
@@ -112,6 +125,7 @@ namespace project_8.Controllers
         }
 
         // GET: Majors/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -130,6 +144,7 @@ namespace project_8.Controllers
         // POST: Majors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Faculity_id,img,Price,Description")] Major major, HttpPostedFileBase img)
@@ -164,6 +179,7 @@ namespace project_8.Controllers
         }
 
         // GET: Majors/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -179,6 +195,7 @@ namespace project_8.Controllers
         }
 
         // POST: Majors/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

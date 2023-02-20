@@ -1,5 +1,6 @@
 ﻿
 @{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
     ViewBag.Title = "Index";
 }
 <style>
@@ -35,7 +36,7 @@
 </style>
 
 
-<h2>Index</h2>
+<h2>Enrollment Forms</h2>
 
 
 <table class="table">
@@ -100,7 +101,7 @@
             </td>
             
             <td>
-                  @Html.ActionLink("Accept", "Paid", new { id = item.Id }, null)
+                  @Html.ActionLink("Accept", "Paid", new { id = item.Id }, new { @class = "btn btn-success" })
 
             </td>
         </tr>

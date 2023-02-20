@@ -1,7 +1,7 @@
 ﻿@model project_8.Models.Class
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
 <!DOCTYPE html>
@@ -20,27 +20,28 @@
             <dt>
                 @Html.DisplayNameFor(model => model.Time)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Time)
             </dd>
-    
+
             <dt>
                 @Html.DisplayNameFor(model => model.Cours.Name)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Cours.Name)
             </dd>
-    
+
         </dl>
-    
-        @using (Html.BeginForm()) {
+
+        @using (Html.BeginForm())
+        {
             @Html.AntiForgeryToken()
-    
+
             <div class="form-actions no-color">
                 <input type="submit" value="Delete" class="btn btn-default" /> |
-                @Html.ActionLink("Back to List", "Index")
+                @Html.ActionLink("Back to List", "Create")
             </div>
         }
     </div>

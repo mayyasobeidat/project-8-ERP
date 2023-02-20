@@ -10,6 +10,13 @@ using project_8.Models;
 
 namespace project_8.Controllers
 {
+    public class CourceViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Major { get; set; }
+        public string Classification { get; set; }
+    }
     public class CoursController : Controller
     {
         private project8Entities db = new project8Entities();
@@ -19,15 +26,6 @@ namespace project_8.Controllers
         {
             var courses = db.Courses.Include(c => c.Classification).Include(c => c.Major);
             return View(courses.ToList());
-        }
-
-        public ActionResult Courses(int id)
-        {
-
-            var majors = db.Courses.Where(m => m.Major_id== id).Include(m => m.Major);
-            return View(majors.ToList());
-
-
         }
 
         // GET: Cours/Details/5
@@ -46,10 +44,47 @@ namespace project_8.Controllers
         }
 
         // GET: Cours/Create
-        public ActionResult Create()
+        public ActionResult Create(string search)
         {
             ViewBag.Classification_id = new SelectList(db.Classifications, "Id", "Classification_Name");
             ViewBag.Major_id = new SelectList(db.Majors, "Id", "Name");
+
+            if (search == null)
+            {
+                var result = from sc in db.Courses
+                             select new CourceViewModel
+                             {
+                                 Id = sc.Id,
+                                 Name = sc.Name,
+                                 Major = sc.Major.Name,
+                                 Classification = sc.Classification.Classification_Name
+                             };
+                var dataaa = result.ToList();
+                ViewBag.Cours = dataaa;
+
+            }
+            else
+            {
+                var result = from sc in db.Courses
+                             where sc.Name.Contains(search)
+                             select new CourceViewModel
+                             {
+                                 Id = sc.Id,
+                                 Name = sc.Name,
+                                 Major = sc.Major.Name,
+                                 Classification = sc.Classification.Classification_Name
+                             };
+                var dataaa = result.ToList();
+                ViewBag.Cours = dataaa;
+
+
+
+            }
+           
+
+
+            var data = db.Courses.ToList();
+            ViewBag.Courses = data;
             return View();
         }
 
@@ -100,7 +135,7 @@ namespace project_8.Controllers
             {
                 db.Entry(cours).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create");
             }
             ViewBag.Classification_id = new SelectList(db.Classifications, "Id", "Classification_Name", cours.Classification_id);
             ViewBag.Major_id = new SelectList(db.Majors, "Id", "Name", cours.Major_id);
@@ -130,7 +165,7 @@ namespace project_8.Controllers
             Cours cours = db.Courses.Find(id);
             db.Courses.Remove(cours);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Create");
         }
 
         protected override void Dispose(bool disposing)

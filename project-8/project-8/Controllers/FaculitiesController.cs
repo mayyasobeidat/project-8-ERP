@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -152,9 +153,22 @@ namespace project_8.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Faculity faculity = db.Faculities.Find(id);
-            db.Faculities.Remove(faculity);
-            db.SaveChanges();
+            try
+            {
+                Faculity faculity = db.Faculities.Find(id);
+                db.Faculities.Remove(faculity);
+                db.SaveChanges();
+                
+            } 
+            catch (SqlException ex)
+            {
+                if (ex.Number == 547)
+                {
+                    
+                    return RedirectToAction("Error");
+                }
+               
+            }
             return RedirectToAction("Index");
         }
 

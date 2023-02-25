@@ -10,13 +10,13 @@
         <div class="row no-gutters slider-text align-items-center justify-content-center" data-scrollax-parent="true">
             <div class="col-md-8 ftco-animate text-center">
                 <p class="breadcrumbs"><span class="mr-2"><a href="/Home/Index">Home</a></span> <span>Majors</span></p>
-                <h1 class="mb-3 bread">Majors</h1>
+                <a href="#Majors"><h1 class="mb-3 bread">Majors</h1></a>
             </div>
         </div>
     </div>
 </div>
 
-<section class="ftco-section">
+<section class="ftco-section" id="Majors">
     <div class="container">
         <div class="row">
             @foreach (var item in Model)
@@ -28,7 +28,7 @@
                             <p class="category"><span>price</span> <span class="price">@item.Price</span>$</p>
                             <h3 class="mb-3"><a href="#">@item.Name</a></h3>
                             <p>@item.Description</p>
-                            @Html.ActionLink("Enroll now!", "Register", "Account", new { id = item.Id }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Enroll now!", "RegButton", "Account", new { id = item.Id }, new { @class = "btn btn-primary" })
                             @*<p><a href="#" class="btn btn-primary">Enroll now!</a></p>*@
                         </div>
                     </div>

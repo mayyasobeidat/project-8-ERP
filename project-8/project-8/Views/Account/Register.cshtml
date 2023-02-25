@@ -68,17 +68,17 @@
 
 
                     @*<div class="form-group">
-                            @Html.LabelFor(m => m.Accountant, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-12">
-                                @Html.EditorFor(m => m.Accountant, new { @class = "form-control" })
-                            </div>
+                        @Html.LabelFor(m => m.Accountant, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(m => m.Accountant, new { @class = "form-control" })
                         </div>
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.Acceptance, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-12">
-                                @Html.EditorFor(m => m.Acceptance, new { @class = "form-control" })
-                            </div>
-                        </div>*@
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Acceptance, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(m => m.Acceptance, new { @class = "form-control" })
+                        </div>
+                    </div>*@
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">National Number</label>
@@ -108,27 +108,27 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Personal Photo</label>
                         <div class="col-md-12">
-                            <input type="file" class="form-control" name="image2" />
+                            <input type="file" class="form-control" name="image2" accept="image/png, image/jpeg, image/jpg" />
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label">Personal Identity</label>
                         <div class="col-md-12">
-                            <input type="file" class="form-control" name="id_img" />
+                            <input type="file" class="form-control" name="id_img" accept="image/png, image/jpeg, image/jpg, application/pdf" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Tawjihi Certificate</label>
                         <div class="col-md-12">
-                            <input type="file" class="form-control" name="certificate_img" />
+                            <input type="file" class="form-control" name="certificate_img" accept="image/png, image/jpeg, image/jpg, application/pdf" />
                         </div>
                     </div>
 
 
 
                     <div class="form-group">
-                        @{
+                        @*@{
                             List<SelectListItem> items = new List<SelectListItem>();
                             foreach (var item in ViewBag.majors)
                             {
@@ -137,9 +137,40 @@
                         }
                         @Html.LabelFor(m => m.Major, new { @class = "col-md-2 control-label" })
                         <div class="col-md-12">
-                            @Html.DropDownListFor(m => m.Major, items, "Select Somthing", new { @class = "form-control" })
+                            @Html.DropDownListFor(m => m.Major, items, "Select Major", new { @class = "form-control" })
+                        </div>*@
+                        @Html.LabelFor(m => m.Major, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-12">
+
+                            <select name="sel" class="form-control">
+                                @*<option>Select Major</option>*@
+
+                                @foreach (var item in @ViewBag.majors)
+                                {
+                                    if (Session["id"] != null)
+                                    {
+
+                                        if (item.Id == Convert.ToInt32(@Session["id"].ToString()))
+                                        {
+                                            <option value="@item.Id" selected>@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    }
+
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+
+
+                                }
+                            </select>
                         </div>
                     </div>
+
 
 
 
@@ -155,9 +186,13 @@
             <br />
             <div class="form-group d-flex justify-content-center">
                 <div class="col-md-6">
-                    <input type="submit" class="btn btn-primary btn-lg" value="Register" style="width:100%; border-radius:0px" />
+                    <input type="submit" class="btn btn-primary btn-lg" value="Register" style="width:100%; border-radius:0px" onclick="showAlert()" />
                 </div>
-
+            </div>
+            <div class="form-group d-flex justify-content-center">
+                <div class="col-md-6">
+                    <a class="btn btn-outline-primary btn-lg" style="width:100%; border-radius:0px" href="/Majors/AllMajors">Cancel</a>
+                </div>
             </div>
 
             <p class="text-center">

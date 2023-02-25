@@ -22,6 +22,32 @@ namespace project_8.Controllers
             return View("Index", db.Majors.Where(p => p.Name.Contains(search)).ToList());
 
         }
+
+        public ActionResult SatisfiedStudents()
+        {                      
+            var count = db.AspNetUsers.Where(s => s.Acceptance == true).Count();
+            return Content(count.ToString());
+        }
+
+        public ActionResult Majors()
+        {
+            var count = db.Majors.Count();
+            return Content(count.ToString());
+        }
+        public ActionResult Course()
+        {
+            var count = db.Courses.Count();
+            return Content(count.ToString());
+        }
+        public ActionResult Faculty()
+        {
+            var count = db.Faculities.Count();
+            return Content(count.ToString());
+        }
+
+
+
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

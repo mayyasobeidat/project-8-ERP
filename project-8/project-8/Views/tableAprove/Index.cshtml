@@ -6,7 +6,14 @@
 }
 
 <h2>Semester Hours Fees</h2>
+<div class="ser" style="width:100%;overflow:auto">
+    @using (Html.BeginForm("Index", "tableAprove", FormMethod.Get))
 
+    {
+        @Html.TextBox("search")
+        <input type="Submit" value="search" class="btn btn-light" />
+    }
+</div>
 <table class="table">
     <tr>
         <th>
@@ -34,8 +41,8 @@
                 @*@Html.LabelFor(m => m.charge)*@
             </td>
             <td>
-                @Html.ActionLink("Paid", "Paid", new { id = item.User_id, payment = item.charge, userName = item.User_name }, new { @class = "btn btn-success" }) 
-              
+                @Html.ActionLink("Paid", "Paid", new { id = item.User_id, payment = item.charge, userName = item.User_name }, new { @class = "btn btn-success" })
+
             </td>
         </tr>
     }

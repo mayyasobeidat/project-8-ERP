@@ -175,23 +175,36 @@ namespace project_8.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            if (Session["id"] != null)
+            {
+                int ID = Convert.ToInt32(Session["id"].ToString());
+            }
             var dbContext = new project8Entities();
             var Majorss = dbContext.Majors.ToList();
-           
-
-
             ViewBag.majors = Majorss;
             return View();
         }
+
+        [AllowAnonymous]
+        public ActionResult RegButton(int id)
+        {
+            Session["id"] = id;
+            return RedirectToAction("Register");
+
+        }
+
 
         //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase image2, HttpPostedFileBase id_img, HttpPostedFileBase certificate_img)
+        public async Task<ActionResult> Register(int sel, RegisterViewModel model, HttpPostedFileBase image2, HttpPostedFileBase id_img, HttpPostedFileBase certificate_img)
         {
+
             var dbContext = new project8Entities();
+            var Majorss = dbContext.Majors.ToList();
+            ViewBag.majors = Majorss;
             //if (ModelState.IsValid)
             //{
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -201,13 +214,12 @@ namespace project_8.Controllers
                 {
                     await UserManager.AddToRoleAsync(user.Id, "Student");
                 var customer = dbContext.AspNetUsers.Find(user.Id);
+                customer.Major_id = sel;
                 customer.Name = model.Name;
-                customer.PhoneNumber= model.PhoneNumber;
-                customer.ID_number= model.ID_number;
-                customer.AVG= model.AVG;
-                customer.birthday= model.birthday;
-                var variable = Convert.ToInt32(model.Major);
-                customer.Major_id = variable;
+                customer.PhoneNumber = model.PhoneNumber;
+                customer.ID_number = model.ID_number;
+                customer.AVG = model.AVG;
+                customer.birthday = model.birthday;
                 ///////////
                 if (image2 != null)
                 {

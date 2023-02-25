@@ -186,6 +186,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AllowEnrollmentController.cs" />
     <Compile Include="Controllers\AllowStudentController.cs" />
+    <Compile Include="Controllers\AspNetUsersController.cs" />
     <Compile Include="Controllers\ClassesController.cs" />
     <Compile Include="Controllers\ClassificationsController.cs" />
     <Compile Include="Controllers\CoursController.cs" />
@@ -576,6 +577,19 @@
     <Content Include="Views\Majors\Majors.cshtml" />
     <Content Include="Views\Shared\_LayoutStudent.cshtml" />
     <Content Include="Views\Student_Class\CreateAddAndDrop.cshtml" />
+    <Content Include="Views\Student_Class\Errorr.cshtml" />
+    <Content Include="Views\Student_Class\Error3.cshtml" />
+    <Content Include="Views\Faculities\Error.cshtml" />
+    <Content Include="Views\AspNetUsers\Create.cshtml" />
+    <Content Include="Views\AspNetUsers\Delete.cshtml" />
+    <Content Include="Views\AspNetUsers\Details.cshtml" />
+    <Content Include="Views\AspNetUsers\Edit.cshtml" />
+    <Content Include="Views\AspNetUsers\Index.cshtml" />
+    <Content Include="Views\AspNetUsers\UserProfile.cshtml" />
+    <Content Include="Views\Home\SatisfiedStudents.cshtml" />
+    <Content Include="Views\Home\Majors.cshtml" />
+    <Content Include="Views\Home\Course.cshtml" />
+    <Content Include="Views\Home\Faculty.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

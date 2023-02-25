@@ -99,7 +99,7 @@ namespace project_8.Controllers
             {
                 db.Courses.Add(cours);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create");
             }
 
             ViewBag.Classification_id = new SelectList(db.Classifications, "Id", "Classification_Name", cours.Classification_id);

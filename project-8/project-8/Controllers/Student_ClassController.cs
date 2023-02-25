@@ -45,6 +45,20 @@ namespace project_8.Controllers
                 return RedirectToAction("Error");
 
             }
+            var result2 = db.class_Accepted.SingleOrDefault(m => m.User_id == userId);
+            if (result2 != null)
+            {
+                var already_submited = result2.Accepted_Studient;
+                if (already_submited == false)
+                {
+                    return RedirectToAction("Error3");
+                }
+                // do something with already_submited
+            }
+            else
+            {
+                return RedirectToAction("Error3");
+            }
             var test = db.Classes.Include(m => m.Cours).ToList();
             ViewBag.ddata = test;
             //string test1 = test.Cours.Name;
@@ -57,6 +71,7 @@ namespace project_8.Controllers
 
 
             var result = from sc in db.Student_Class
+                         where sc.User_id == userId
                          select new StudentClassViewModel
                          {
                              Id = sc.Id,
@@ -75,13 +90,14 @@ namespace project_8.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateAddAndDrop([Bind(Include = "Id,Class_id,User_id")] Student_Class student_Class)
+        public ActionResult CreateAddAndDrop([Bind(Include = "Id,Class_id")] Student_Class student_Class)
         {
             if (ModelState.IsValid)
             {
+                student_Class.User_id = User.Identity.GetUserId();
                 db.Student_Class.Add(student_Class);
                 db.SaveChanges();
-                return RedirectToAction("Create");
+                return RedirectToAction("CreateAddAndDrop");
             }
 
             ViewBag.User_id = new SelectList(db.AspNetUsers, "Id", "Email", student_Class.User_id);
@@ -95,7 +111,16 @@ namespace project_8.Controllers
 
             return View();
         }
+        public ActionResult Errorr()
+        {
 
+            return View();
+        }
+        public ActionResult Error3()
+        {
+
+            return View();
+        }
         // GET: Student_Class/Details/5
         public ActionResult Details(int? id)
         {
@@ -118,6 +143,7 @@ namespace project_8.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+
             var userId = User.Identity.GetUserId();
             var attempet_user = db.AspNetUsers.SingleOrDefault(m => m.Id == userId)?.Accountant;
             if (attempet_user == false)
@@ -125,6 +151,19 @@ namespace project_8.Controllers
                 return RedirectToAction("Error");
 
             }
+            var result2 = db.class_Accepted.SingleOrDefault(m => m.User_id == userId);
+            if (result2 != null)
+            {
+                var already_submited = result2.Accepted_Studient;
+                if (already_submited == true)
+                {
+                    return RedirectToAction("Errorr");
+                }
+                // do something with already_submited
+            }
+            //var already_submited = db.class_Accepted.SingleOrDefault(m => m.User_id == userId).Accepted_Studient;
+           
+
             var test = db.Classes.Include(m => m.Cours).ToList();
             ViewBag.ddata = test;
             //string test1 = test.Cours.Name;
@@ -137,6 +176,7 @@ namespace project_8.Controllers
             
 
             var result = from sc in db.Student_Class
+                         where sc.User_id == userId
                          select new StudentClassViewModel
                          {
                              Id = sc.Id,
@@ -185,12 +225,13 @@ namespace project_8.Controllers
             {
                 var class2 = db.class_Accepted.SingleOrDefault(m=>m.User_id == userId);
                 class2.charge = total_price;
+                class2.Accepted_Studient = true;
                 //class2.Accepted_Studient = true;
                 db.SaveChanges();
                 return RedirectToAction("Create");
             }
 
-            var newOne = new class_Accepted { User_id = User.Identity.GetUserId(), User_name = User.Identity.GetUserName(), charge = total_price, Accepted_Studient = true };
+            var newOne = new class_Accepted { User_id = User.Identity.GetUserId(), User_name = User.Identity.GetUserName(), charge = total_price, Accepted_Studient = true, Accepted_Acountant = false };
 
             db.class_Accepted.Add(newOne);
             db.SaveChanges();
@@ -256,16 +297,25 @@ namespace project_8.Controllers
         // GET: Student_Class/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Student_Class student_Class = db.Student_Class.Find(id);
+                if (student_Class == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(student_Class);
             }
-            Student_Class student_Class = db.Student_Class.Find(id);
-            if (student_Class == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+
+                return RedirectToAction("Error");
             }
-            return View(student_Class);
+           
         }
 
         // POST: Student_Class/Delete/5

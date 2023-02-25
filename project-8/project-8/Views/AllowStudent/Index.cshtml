@@ -26,18 +26,27 @@
         -webkit-transition-duration: 0.3s;
         -webkit-transition-timing-function: ease;
     }
+
     .zoom {
         transform: scale(1.5); /* increase the size of the image by 50% */
     }
-    
+
     .thumbnail:hover {
         transform: scale(5);
     }
 </style>
 
-
 <h2>Enrollment Forms</h2>
+<hr />
 
+<div class="ser" style="width:100%;overflow:auto">
+    @using (Html.BeginForm("Index", "AllowStudent", FormMethod.Get))
+
+    {
+        @Html.TextBox("search")
+        <input type="Submit" value="search" class="btn btn-light" />
+    }
+</div>
 
 <table class="table">
     <tr>
@@ -88,10 +97,10 @@
                 <img id="img" class="thumbnail" src="@item.img" />
             </td>
             <td>
-                <img class="thumbnail" src="@item.ID_img" style="width:100px;height:100px" />
+                <img class="thumbnail" src="@item.ID_img" />
             </td>
             <td>
-                <img class="thumbnail" src="@item.certificate_img" style="width:100px;height:100px" />
+                <img class="thumbnail" src="@item.certificate_img" />
             </td>
             <td>
                 <span>@item.AVG</span>
@@ -99,9 +108,9 @@
             <td>
                 <span>@item.major</span>
             </td>
-            
+
             <td>
-                  @Html.ActionLink("Accept", "Paid", new { id = item.Id }, new { @class = "btn btn-success" })
+                @Html.ActionLink("Accept", "Paid", new { id = item.Id }, new { @class = "btn btn-success" })
 
             </td>
         </tr>

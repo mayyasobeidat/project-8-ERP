@@ -14,11 +14,22 @@ namespace project_8.Controllers
         private project8Entities db = new project8Entities();
 
         // GET: tableAprove
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            var data = db.class_Accepted.Where(m=>m.Accepted_Acountant==false).ToList();
-            ViewBag.data = data;
-            return View();
+            if (search == null)
+            {
+
+                var data = db.class_Accepted.Where(m => m.Accepted_Acountant == false).ToList();
+                ViewBag.data = data;
+                return View();
+            }
+            else
+            {
+
+                var data = db.class_Accepted.Where(m => m.Accepted_Acountant == false).Where(m => m.User_name.Contains(search)).ToList();
+                ViewBag.data = data;
+                return View();
+            }
         }
 
         public ActionResult Paid(string id, int payment, string userName)

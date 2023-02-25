@@ -13,11 +13,20 @@ namespace project_8.Controllers
     {
         private project8Entities db = new project8Entities();
         // GET: AllowEnrollment
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            var data = db.AspNetUsers.Where(m => m.Acceptance == true && m.Accountant == false).ToList();
-            ViewBag.data = data;
-            return View();
+            if (search == null)
+            {
+                var data = db.AspNetUsers.Where(m => m.Acceptance == true && m.Accountant == false).ToList();
+                ViewBag.data = data;
+                return View();
+            }
+            else
+            {
+                var data = db.AspNetUsers.Where(m => m.Acceptance == true && m.Accountant == false).Where(m => m.UserName.Contains(search)).ToList();
+                ViewBag.data = data;
+                return View();
+            }
         }
 
         public ActionResult Paid(string id, string userName)
